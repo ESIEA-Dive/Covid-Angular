@@ -17,7 +17,6 @@ export class SummaryPageComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.covidData = data;
-          console.log('Summary Data', data);
         }
       );
   }
