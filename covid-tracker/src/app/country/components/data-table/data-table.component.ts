@@ -17,6 +17,5 @@ export class DataTableComponent  implements OnInit, OnChanges {
 
   ngOnChanges(): void {
    this.countries = this.covidData?.Countries;
-   console.log(this.countries)
   }
 }
