@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-country-chart',
@@ -13,10 +14,11 @@ export class CountryChartComponent implements OnInit, OnChanges {
 
   barChartData: ChartDataSets[] = [
     {
-      data: [64, 80 ,98]
+      data: [],
+      label: 'Confirmed Cases'
     }
   ];
-  barChartLabels: Label[] = ['Usa', 'Brazil', 'fuk'];
+  barChartLabels: Label[] = [];
   barChartOptions: ChartOptions = {
     responsive: true
   }
@@ -24,14 +26,23 @@ export class CountryChartComponent implements OnInit, OnChanges {
   barChartLegend = true;
   barChartPlugins = [];
 
-  constructor() {}
+  constructor( private dataService: DataService) { }
 
   ngOnInit(): void {
 
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.country)
+  ngOnChanges(): void {
+    this.getCountryData();
   }
 
+  getCountryData() {
+    this.dataService.getCountryDataByDate(this.country, '2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z')
+      .subscribe(
+        (response: any) => {
+          this.barChartData[0].data = response.map((obj: any) => obj['Cases']);
+          this.barChartLabels = response.map((obj: any) => obj['Date'].substring(0, 10));
+        }
+      );
+  }
 }

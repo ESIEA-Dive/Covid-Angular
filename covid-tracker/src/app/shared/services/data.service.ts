@@ -16,7 +16,7 @@ export class DataService {
     return this.http.get(`${this.apiUrl}/summary`)
   }
 
-  getCountryData(country: string, date: string) {
+  getCountryDataByDate(country: string, date: string) {
     return this.http.get(`${this.apiUrl}/total/country/${country}/status/confirmed?${date}`)
   }
 }
